@@ -1,12 +1,17 @@
 
 package ru.piano.backend.test.web;
 
+import static com.google.common.net.MediaType.JSON_UTF_8;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ws.rs.Path;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import ru.piano.backend.test.api.QuestionsResource;
 import ru.piano.backend.test.view.Question;
 import ru.piano.backend.test.view.Questions;
@@ -28,10 +33,17 @@ public class QuestionsResourceImpl implements QuestionsResource {
                 .queryParam("sort", "activity")
                 .queryParam("intitle", "java")
                 .queryParam("site", "stackoverflow");
-        String questionsResponse = questionsTarget.request(MediaType.APPLICATION_JSON_TYPE).get(String.class);
+        String jsonResponse = questionsTarget.request(JSON_UTF_8.toString()).acceptEncoding("UTF-8").get(String.class);
+
+        JSONParser parser = new JSONParser();
+        try {
+            JSONObject jsonObject = (JSONObject) parser.parse(jsonResponse);
+        } catch (ParseException ex) {
+            Logger.getLogger(QuestionsResourceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         Questions list = new Questions();
-        list.withQuestions(new Question().withTitle(questionsResponse));
+        list.withQuestions(new Question(), new Question(), new Question());
 
         return list;
     }

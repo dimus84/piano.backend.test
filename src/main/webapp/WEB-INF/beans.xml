@@ -105,7 +105,7 @@
         <property name="singleJaxbContext" value="true"/>
     </bean>
     <!-- moxy json provider, default behavior -->
-    <bean id="jsonProvider" class="ru.ilb.common.jaxrs.json.eclipse.MOXyJsonProvider">
+    <bean id="jsonProvider" class="org.eclipse.persistence.jaxb.rs.MOXyJsonProvider">
         <property name="formattedOutput" value="true"/>
     </bean>
 
