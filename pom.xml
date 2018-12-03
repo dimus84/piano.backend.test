@@ -21,6 +21,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
+        <eclipselink.version>2.7.1</eclipselink.version>
         <org.springframework.version>5.0.6.RELEASE</org.springframework.version>
         <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
     </properties>
@@ -50,6 +51,12 @@
             <groupId>com.migesok</groupId>
             <artifactId>jaxb-java-time-adapters</artifactId>
             <version>1.1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>${eclipselink.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
