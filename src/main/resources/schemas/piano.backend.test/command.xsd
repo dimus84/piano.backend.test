@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified"
+            xmlns="urn:ru:piano:backend:test:command"
+            targetNamespace="urn:ru:piano:backend:test:command"
+            xmlns:core="urn:ru:piano:backend:test:core"
+            xmlns:view="urn:ru:piano:backend:test:view"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+    <xsd:import namespace="urn:ru:piano:backend:test:core" schemaLocation="./core.xsd"/>
+    <xsd:import namespace="urn:ru:piano:backend:test:view" schemaLocation="./view.xsd"/>
+
+
+
+</xsd:schema>

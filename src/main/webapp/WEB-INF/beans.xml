@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:jaxrs-client="http://cxf.apache.org/jaxrs-client"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:sec="http://cxf.apache.org/configuration/security"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+        http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xsd
+        http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+        http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+>
+
+    <!-- Load defaults from apache cxf -->
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <!--This switches on the load-time weaving for  @Transactional (in case of mode="aspectj"), @Configurable annotated classes -->
+    <!--<context:load-time-weaver/>-->
+    <!-- This switches on resolving System properties and JNDI resources in strings like ${propname} -->
+    <context:property-placeholder />
+    <!--Activates @Required, @Autowired, @PostConstruct, @PreDestroy and @Resource -->
+    <context:annotation-config/>
+    <!--Activates @Configurable -->
+    <context:spring-configured/>
+    <!-- Activates @Aspect beans, spring-aop dependency required -->
+    <aop:aspectj-autoproxy />
+    <!-- uncomment to enable @Cacheable support -->
+    <cache:annotation-driven mode="aspectj"/>
+
+    <bean id="cacheManager" class="org.springframework.cache.caffeine.CaffeineCacheManager"/>
+
+    <!-- uncomment to enable guava cache support
+    <bean id="cacheBuilder" class="com.google.common.cache.CacheBuilder" factory-method="from">
+        <constructor-arg value="maximumSize=500, expireAfterAccess=300s, expireAfterWrite=300s" />
+    </bean>
+    <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
+        <property name="cacheBuilder" ref="cacheBuilder"/>
+    </bean>
+    -->
+
+    <!-- taskExecutor config -->
+    <!--
+    <task:executor id="taskExecutor" pool-size="${corePoolSize}" queue-capacity="${queueCapacity}"/>
+    <task:scheduler id="taskScheduler"/>
+    <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler" mode="aspectj"/>
+    -->
+
+    <!-- Tasks beans -->
+    <!--
+    <bean id="documentLogic" class="ru.piano.backend.test.logic.DocumentLogic"/>
+    -->
+
+    <!-- tasks -->
+    <!--
+    <task:scheduled-tasks scheduler="taskScheduler">
+        <task:scheduled ref="documentLogic" method="importItemsSource" cron="${scheduleImportItemsSource}"/>
+    </task:scheduled-tasks>
+    -->
+
+    <!-- Configure xslt support, see also web.xml for refreshTemplates env-entry -->
+    <bean id="uriResolver" class="ru.ilb.common.jaxrs.xml.transform.ServletContextURIResolver"/>
+
+
+    <bean id="xsltProvider" class="org.apache.cxf.jaxrs.provider.XSLTJaxbProvider" >
+        <property name="resolver" ref="uriResolver"/>
+        <property name="produceMediaTypes" value="application/xml,application/*+xml,text/xml,text/html,text/csv"/>
+        <property name="refreshTemplates">
+            <jee:jndi-lookup jndi-name="java:/comp/env/refreshTemplates" />
+        </property>
+    </bean>
+
+    <bean id="searchContextProvider" class="org.apache.cxf.jaxrs.ext.search.SearchContextProvider"/>
+
+    <util:map id="namespaceMap" map-class="java.util.Hashtable">
+        <!--<entry key="urn:ru:ilb:piano.backend.test:model" value="model"/>-->
+    </util:map>
+
+    <bean id="jaxbContextResolver" class="ru.ilb.common.jaxrs.jaxb.JaxbContextResolver" >
+        <property name="extraClass" ref="extraClass"/>
+    </bean>
+
+    <!-- Both jaxbProvider and jsonProvider should be configured identically -->
+    <bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
+        <property name="namespacePrefixes" ref="namespaceMap"/>
+        <property name="marshallerProperties" ref="marshallerProperties"/>
+        <property name="singleJaxbContext" value="true"/>
+    </bean>
+    <!-- moxy json provider, default behavior -->
+    <bean id="jsonProvider" class="org.eclipse.persistence.jaxb.rs.MOXyJsonProvider">
+        <property name="formattedOutput" value="true"/>
+    </bean>
+
+    <util:list id="schemaLocations">
+        <value>classpath:schemas/piano.backend.test/command.xsd</value>
+    </util:list>
+
+    <util:list id="extraClass" value-type="java.lang.Class">
+    </util:list>
+
+    <util:map id="marshallerProperties">
+        <entry key="jaxb.formatted.output" value="true" value-type="java.lang.Boolean"/>
+    </util:map>
+
+    <!-- inbound request logging -->
+    <bean id="logInbound" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+
+    <!-- new logging feature -->
+    <bean id="loggingFeature" class="org.apache.cxf.ext.logging.LoggingFeature"/>
+
+    <cxf:bus>
+        <cxf:properties>
+            <entry key="skip.default.json.provider.registration" value="true"/>
+        </cxf:properties>
+    </cxf:bus>
+
+    <!-- auto register @Component annotated classes -->
+    <context:component-scan base-package="ru.piano.backend.test.web,ru.piano.backend.test.core,ru.piano.backend.test.utils,ru.piano.backend.test.mappers,ru.piano.backend.test.logic"/>
+    <jaxrs:server address="/" basePackages="ru.piano.backend.test.web">
+        <jaxrs:providers>
+            <ref bean="jaxbContextResolver"/>
+            <ref bean="jaxbProvider"/>
+            <ref bean="xsltProvider"/>
+            <ref bean="jsonProvider"/>
+            <ref bean="searchContextProvider"/>
+        </jaxrs:providers>
+        <jaxrs:features>
+            <!-- swagger api support -->
+            <ref bean="loggingFeature"/>
+        </jaxrs:features>
+        <jaxrs:inInterceptors>
+            <!--uncomment to enable inbound request logging-->
+            <ref bean="logInbound"/>
+            <!-- override default encoding  "ISO-8859-1" -->
+            <bean class="ru.ilb.common.jaxrs.interceptors.EncodingInInterceptor"/>
+        </jaxrs:inInterceptors>
+        <jaxrs:outInterceptors>
+            <!--uncomment to enable response validation -->
+            <!--<ref bean="validationOutInterceptor" />-->
+        </jaxrs:outInterceptors>
+        <jaxrs:extensionMappings>
+            <entry key="xml" value="application/xml;charset=UTF-8"/>
+            <entry key="json" value="application/json;charset=UTF-8"/>
+            <entry key="xhtml" value="application/xhtml+xml"/>
+        </jaxrs:extensionMappings>
+    </jaxrs:server>
+
+    <http-conf:conduit name="*.http-conduit">
+        <!--        <http-conf:tlsClientParameters>
+            <sec:keyManagers keyPassword="${javax.net.ssl.keyStorePassword}">
+                <sec:keyStore type="${javax.net.ssl.keyStoreType:JKS}" password="${javax.net.ssl.keyStorePassword}"
+                              file="${javax.net.ssl.keyStore}"/>
+            </sec:keyManagers>
+            <sec:trustManagers>
+                <sec:keyStore type="${javax.net.ssl.trustStoreType:JKS}" file="${javax.net.ssl.trustStore}" password="${javax.net.ssl.trustStorePassword:#{null}}"/>
+            </sec:trustManagers>
+        </http-conf:tlsClientParameters>-->
+        <!-- disable chunking, not works everywhere -->
+        <http-conf:client AllowChunking="false" />
+    </http-conf:conduit>
+
+</beans>
