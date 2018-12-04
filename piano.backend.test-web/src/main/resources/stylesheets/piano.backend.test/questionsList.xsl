@@ -43,7 +43,7 @@
 
                 <div class="outside content">
                     <div class="inside">
-                        <div class="mainbar">
+                        <div>
                             <div>
                                 <div class="subheader">
                                     <h1>Usage of  /search </h1>
@@ -51,36 +51,36 @@
 
                                 <form method="get" action="{$absolute.path}">
                                     <div class="parameters">
-                                        <table class="parameter">
+                                        <table>
                                             <tbody>
                                                 <tr>
-                                                    <td class="label-holder">
+                                                    <td style="width:25%;">
                                                         <label for="param-page">page</label>
                                                     </td>
-                                                    <td>
+                                                    <td style="width:25%;">
                                                         <input class="parameter-input number-type" id="param-page" name="page" type="text" />
                                                     </td>
-                                                    <td class="label-holder">
+                                                    <td style="width:25%;">
                                                         <label for="param-pagesize">pagesize</label>
                                                     </td>
-                                                    <td>
+                                                    <td style="width:25%;">
                                                         <input class="parameter-input number-type" id="param-pagesize" name="pagesize" type="text" />
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="label-holder">
+                                                    <td style="width:25%;">
                                                         <label for="param-order">order</label>
                                                     </td>
-                                                    <td>
+                                                    <td style="width:25%;">
                                                         <select name="order" id="param-order" class="parameter-select">
                                                             <option>desc</option>
                                                             <option>asc</option>
                                                         </select>
                                                     </td>
-                                                    <td class="label-holder">
+                                                    <td style="width:25%;">
                                                         <label for="param-sort">sort</label>
                                                     </td>
-                                                    <td>
+                                                    <td style="width:25%;">
                                                         <select name="sort" id="param-sort" class="parameter-select">
                                                             <option>activity</option>
                                                             <option>votes</option>
@@ -90,7 +90,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="label-holder">
+                                                    <td style="width:25%;">
                                                         <label for="param-intitle">intitle</label>
                                                     </td>
                                                     <td colspan="3">
@@ -167,6 +167,9 @@
 
     <xsl:template match="view:question">
             <tr>
+                <xsl:if test="view:is_answered='true'">
+                    <xsl:attribute name="style">background-color:palegreen;</xsl:attribute>
+                </xsl:if>
                 <td style="width:20%;">
                     <xsl:value-of select="translate(view:creation_date,'T',' ')"/>
                 </td>
