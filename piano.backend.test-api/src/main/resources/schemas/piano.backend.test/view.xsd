@@ -109,9 +109,14 @@
         </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:element name="questions">
+    <xsd:element name="questionsList">
         <xsd:complexType>
             <xsd:sequence>
+                <xsd:element name="page" type="xsd:int" minOccurs="0"/>
+                <xsd:element name="pagesize" type="xsd:int" minOccurs="0"/>
+                <xsd:element name="order" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="sort" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="intitle" type="xsd:string" minOccurs="0"/>
                 <xsd:element ref="question" maxOccurs="unbounded" minOccurs="0"/>
             </xsd:sequence>
         </xsd:complexType>

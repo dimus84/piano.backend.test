@@ -58,13 +58,13 @@
                                                         <label for="param-page">page</label>
                                                     </td>
                                                     <td style="width:25%;">
-                                                        <input class="parameter-input number-type" id="param-page" name="page" type="text" />
+                                                        <input class="parameter-input number-type" id="param-page" name="page" type="text" value="{./view:questionsList/view:page}" />
                                                     </td>
                                                     <td style="width:25%;">
                                                         <label for="param-pagesize">pagesize</label>
                                                     </td>
                                                     <td style="width:25%;">
-                                                        <input class="parameter-input number-type" id="param-pagesize" name="pagesize" type="text" />
+                                                        <input class="parameter-input number-type" id="param-pagesize" name="pagesize" type="text" value="{./view:questionsList/view:pagesize}" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -73,8 +73,18 @@
                                                     </td>
                                                     <td style="width:25%;">
                                                         <select name="order" id="param-order" class="parameter-select">
-                                                            <option>desc</option>
-                                                            <option>asc</option>
+                                                            <option>
+                                                                <xsl:if test="./view:questionsList/view:order='desc'">
+                                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                                </xsl:if>
+                                                                <xsl:text>desc</xsl:text>
+                                                            </option>
+                                                            <option>
+                                                                <xsl:if test="./view:questionsList/view:order='asc'">
+                                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                                </xsl:if>
+                                                                <xsl:text>asc</xsl:text>
+                                                            </option>
                                                         </select>
                                                     </td>
                                                     <td style="width:25%;">
@@ -82,10 +92,30 @@
                                                     </td>
                                                     <td style="width:25%;">
                                                         <select name="sort" id="param-sort" class="parameter-select">
-                                                            <option>activity</option>
-                                                            <option>votes</option>
-                                                            <option>creation</option>
-                                                            <option>relevance</option>
+                                                            <option>
+                                                                <xsl:if test="./view:questionsList/view:sort='activity'">
+                                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                                </xsl:if>
+                                                                <xsl:text>activity</xsl:text>
+                                                            </option>
+                                                            <option>
+                                                                <xsl:if test="./view:questionsList/view:sort='votes'">
+                                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                                </xsl:if>
+                                                                <xsl:text>votes</xsl:text>
+                                                            </option>
+                                                            <option>
+                                                                <xsl:if test="./view:questionsList/view:sort='creation'">
+                                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                                </xsl:if>
+                                                                <xsl:text>creation</xsl:text>
+                                                            </option>
+                                                            <option>
+                                                                <xsl:if test="./view:questionsList/view:sort='relevance'">
+                                                                    <xsl:attribute name="selected">selected</xsl:attribute>
+                                                                </xsl:if>
+                                                                <xsl:text>relevance</xsl:text>
+                                                            </option>
                                                         </select>
                                                     </td>
                                                 </tr>
@@ -94,7 +124,7 @@
                                                         <label for="param-intitle">intitle</label>
                                                     </td>
                                                     <td colspan="3">
-                                                        <input class="parameter-input" id="param-intitle" name="intitle" type="text" />
+                                                        <input class="parameter-input" id="param-intitle" name="intitle" type="text" value="{./view:questionsList/view:intitle}" />
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -141,7 +171,7 @@
         </html>
     </xsl:template>
 
-    <xsl:template match="view:questions">
+    <xsl:template match="view:questionsList">
         <div>
             <div class="subheader">
                 <h1>List of questions</h1>
@@ -151,14 +181,16 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Date</th>
+                            <th>Creation</th>
                             <th>Title</th>
                             <th>Owner</th>
-                            <th>Link</th>
+                            <th>Go to</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <xsl:apply-templates/>
+                        <xsl:for-each select="view:question">
+                            <xsl:apply-templates select="."/>
+                        </xsl:for-each>
                     </tbody>
                 </table>
             </div>

@@ -32,7 +32,7 @@
                     </param>
                 </request>
                 <response>
-                    <representation mediaType="application/xml" element="view:questions">
+                    <representation mediaType="application/xml" element="view:questionsList">
                         <doc>list of questions</doc>
                     </representation>
                     <representation mediaType="application/json">
