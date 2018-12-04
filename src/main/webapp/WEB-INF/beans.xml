@@ -48,15 +48,6 @@
 
     <bean id="cacheManager" class="org.springframework.cache.caffeine.CaffeineCacheManager"/>
 
-    <!-- uncomment to enable guava cache support
-    <bean id="cacheBuilder" class="com.google.common.cache.CacheBuilder" factory-method="from">
-        <constructor-arg value="maximumSize=500, expireAfterAccess=300s, expireAfterWrite=300s" />
-    </bean>
-    <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
-        <property name="cacheBuilder" ref="cacheBuilder"/>
-    </bean>
-    -->
-
     <!-- taskExecutor config -->
     <!--
     <task:executor id="taskExecutor" pool-size="${corePoolSize}" queue-capacity="${queueCapacity}"/>
@@ -76,9 +67,16 @@
     </task:scheduled-tasks>
     -->
 
+    <bean id="wadlGenerator" class="org.apache.cxf.jaxrs.model.wadl.WadlGenerator">
+        <property name="jaxbContextProperties">
+            <util:map>
+                <entry key="eclipselink.beanvalidation.facets" value="true" value-type="java.lang.Boolean"/>
+            </util:map>
+        </property>
+    </bean>
+
     <!-- Configure xslt support, see also web.xml for refreshTemplates env-entry -->
     <bean id="uriResolver" class="ru.ilb.common.jaxrs.xml.transform.ServletContextURIResolver"/>
-
 
     <bean id="xsltProvider" class="org.apache.cxf.jaxrs.provider.XSLTJaxbProvider" >
         <property name="resolver" ref="uriResolver"/>
@@ -95,6 +93,7 @@
     </util:map>
 
     <bean id="jaxbContextResolver" class="ru.ilb.common.jaxrs.jaxb.JaxbContextResolver" >
+        <property name="contextProperties" ref="contextProperties"/>
         <property name="extraClass" ref="extraClass"/>
     </bean>
 
@@ -102,11 +101,18 @@
     <bean id="jaxbProvider" class="org.apache.cxf.jaxrs.provider.JAXBElementProvider">
         <property name="namespacePrefixes" ref="namespaceMap"/>
         <property name="marshallerProperties" ref="marshallerProperties"/>
+        <property name="contextProperties" ref="contextProperties"/>
         <property name="singleJaxbContext" value="true"/>
+        <property name="schemaHandler" ref="schemaHandler"/>
     </bean>
+
     <!-- moxy json provider, default behavior -->
     <bean id="jsonProvider" class="org.eclipse.persistence.jaxb.rs.MOXyJsonProvider">
         <property name="formattedOutput" value="true"/>
+    </bean>
+
+    <bean id="schemaHandler" class="org.apache.cxf.jaxrs.utils.schemas.SchemaHandler">
+        <property name="schemaLocations" ref="schemaLocations"/>
     </bean>
 
     <util:list id="schemaLocations">
@@ -118,6 +124,11 @@
 
     <util:map id="marshallerProperties">
         <entry key="jaxb.formatted.output" value="true" value-type="java.lang.Boolean"/>
+    </util:map>
+
+    <util:map id="contextProperties">
+        <entry key="com.sun.xml.internal.bind.XmlAccessorFactory" value="true" value-type="java.lang.Boolean"/>
+        <!--<entry key="eclipselink.beanvalidation.facets" value="true" value-type="java.lang.Boolean"/>-->
     </util:map>
 
     <!-- inbound request logging -->
@@ -133,7 +144,8 @@
     </cxf:bus>
 
     <!-- auto register @Component annotated classes -->
-    <context:component-scan base-package="ru.piano.backend.test.web,ru.piano.backend.test.core,ru.piano.backend.test.utils,ru.piano.backend.test.mappers,ru.piano.backend.test.logic"/>
+    <context:component-scan base-package="ru.piano.backend.test.web,ru.piano.backend.test.utils,ru.piano.backend.test.logic,ru.piano.backend.test.mappers"/>
+
     <jaxrs:server address="/" basePackages="ru.piano.backend.test.web">
         <jaxrs:providers>
             <ref bean="jaxbContextResolver"/>

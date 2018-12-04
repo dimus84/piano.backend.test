@@ -1,0 +1,103 @@
+{
+    "items": [{
+            "tags": ["java", "swing"],
+            "owner": {
+                "reputation": 1,
+                "user_id": 10738650,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/db6d1fc6c0aa3a4bcfcc2ab4836c3522?s=128&d=identicon&r=PG&f=1",
+                "display_name": "just4you",
+                "link": "https://stackoverflow.com/users/10738650/just4you"
+            },
+            "is_answered": false,
+            "view_count": 9,
+            "answer_count": 1,
+            "score": 0,
+            "last_activity_date": 1543839206,
+            "creation_date": 1543838274,
+            "question_id": 53593396,
+            "link": "https://stackoverflow.com/questions/53593396/java-input-jtextfield",
+            "title": "java input JTextfield"
+        }, {
+            "tags": ["java", "interface"],
+            "owner": {
+                "reputation": 4,
+                "user_id": 9896432,
+                "user_type": "registered",
+                "profile_image": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=128",
+                "display_name": "Pierre Roodman",
+                "link": "https://stackoverflow.com/users/9896432/pierre-roodman"
+            },
+            "is_answered": true,
+            "view_count": 24,
+            "answer_count": 3,
+            "score": -2,
+            "last_activity_date": 1543839164,
+            "creation_date": 1543838568,
+            "question_id": 53593481,
+            "link": "https://stackoverflow.com/questions/53593481/when-implementing-an-interface-in-java-can-i-override-an-implemented-method-as-p",
+            "title": "When implementing an interface in java can I override an implemented method as private or protected?"
+        }, {
+            "tags": ["performance"],
+            "owner": {
+                "reputation": 1,
+                "user_id": 10706882,
+                "user_type": "registered",
+                "profile_image": "https://lh3.googleusercontent.com/-9SgOTUKLTzw/AAAAAAAAAAI/AAAAAAAAAEo/I3YssCp8i3o/photo.jpg?sz=128",
+                "display_name": "Luke Byrne",
+                "link": "https://stackoverflow.com/users/10706882/luke-byrne"
+            },
+            "is_answered": true,
+            "view_count": 55,
+            "accepted_answer_id": 53484577,
+            "answer_count": 2,
+            "score": 0,
+            "last_activity_date": 1543839056,
+            "creation_date": 1543243742,
+            "last_edit_date": 1543839056,
+            "question_id": 53483644,
+            "link": "https://stackoverflow.com/questions/53483644/error-handling-for-simpledateformat-in-java",
+            "title": "Error handling for SimpleDateFormat in Java"
+        }, {
+            "tags": ["java", "json", "kotlin", "compiler-errors"],
+            "owner": {
+                "reputation": 33,
+                "user_id": 9014107,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/56645781f18f8b0289b6627b5ecb3dd0?s=128&d=identicon&r=PG&f=1",
+                "display_name": "navin",
+                "link": "https://stackoverflow.com/users/9014107/navin"
+            },
+            "is_answered": false,
+            "view_count": 24,
+            "answer_count": 1,
+            "score": 1,
+            "last_activity_date": 1543839051,
+            "creation_date": 1543767734,
+            "question_id": 53582212,
+            "link": "https://stackoverflow.com/questions/53582212/how-to-compile-and-run-kotlin-program-in-command-line-with-external-java-library",
+            "title": "How to compile and run kotlin program in command line with external java library"
+        }, {
+            "tags": ["java", "swing"],
+            "owner": {
+                "reputation": 105,
+                "user_id": 5891566,
+                "user_type": "registered",
+                "profile_image": "https://www.gravatar.com/avatar/72159680e8184df9647a239f2f26c60b?s=128&d=identicon&r=PG&f=1",
+                "display_name": "el_chupacabra",
+                "link": "https://stackoverflow.com/users/5891566/el-chupacabra"
+            },
+            "is_answered": false,
+            "view_count": 7,
+            "answer_count": 0,
+            "score": 0,
+            "last_activity_date": 1543838923,
+            "creation_date": 1543838923,
+            "question_id": 53593569,
+            "link": "https://stackoverflow.com/questions/53593569/java-swing-selectable-jmenu",
+            "title": "Java Swing selectable JMenu"
+        }],
+    "has_more": true,
+    "quota_max": 300,
+    "quota_remaining": 285
+}

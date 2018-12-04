@@ -59,11 +59,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>27.0-jre</version>
-        </dependency>
-        <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
@@ -299,6 +294,29 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
                         <version>2.10</version>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <!-- packaging org.eclipse.persistence.jaxb.rs.MOXyJsonProvider required becouse of javax.ws.rs-api conflicts -->
+                                        <artifactItem>
+                                            <groupId>org.eclipse.persistence</groupId>
+                                            <artifactId>org.eclipse.persistence.moxy</artifactId>
+                                            <version>${eclipselink.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                            <includes>org/eclipse/persistence/jaxb/rs/*.class</includes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
