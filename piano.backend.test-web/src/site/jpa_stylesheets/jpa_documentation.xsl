@@ -2,12 +2,10 @@
 <!--
   jpa_documentation.xsl (2017-01-09)
 
-  An XSLT stylesheet for generating HTML documentation from jpa model by JPAModeler,
-  by <slavb18@gmail.com>.
-
+  An XSLT stylesheet for generating HTML documentation from jpa model by JPAModeler.
 -->
 
-<xsl:stylesheet 
+<xsl:stylesheet
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:html="http://www.w3.org/1999/xhtml"
@@ -20,17 +18,17 @@
 >
     <xsl:import href="locales.xsl"/>
     <xsl:import href="markdown.xsl"/>
-    <xsl:output 
-        method="html" 
-        encoding="UTF-8" 
+    <xsl:output
+        method="html"
+        encoding="UTF-8"
         indent="yes"
         doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
         doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
     />
-    
+
     <!-- main template -->
-        
-    <xsl:template match="/jpa:entity-mappings">   
+
+    <xsl:template match="/jpa:entity-mappings">
         <html>
             <head>
                 <title>
@@ -39,7 +37,7 @@
                             <xsl:value-of select="jpa:description"/>
                         </xsl:when>
                         <xsl:otherwise>unnamed model</xsl:otherwise>
-                    </xsl:choose>                 
+                    </xsl:choose>
                 </title>
                 <meta charset="utf-8"/>
                 <style type="text/css"><![CDATA[
@@ -115,7 +113,7 @@
                             location = location.hash;
                         }
                     }
-                ]]></script>                
+                ]]></script>
             </head>
             <body>
                 <h1>
@@ -133,11 +131,11 @@
                 <h2 id="entities">
                     <xsl:call-template name="locales-translate">
                         <xsl:with-param name="source" select="'Entities'"/>
-                    </xsl:call-template>                    
+                    </xsl:call-template>
                 </h2>
                 <xsl:apply-templates select="jpa:entity" mode="list">
                     <xsl:with-param name="package" select="$package"/>
-                </xsl:apply-templates>                    
+                </xsl:apply-templates>
             </body>
         </html>
     </xsl:template>
@@ -151,18 +149,18 @@
         <xsl:variable name="name">
             <xsl:call-template name="get-entity-name-class"/>
         </xsl:variable>
-        
+
         <li>
             <a href="#{$ref}">
                 <xsl:value-of select="$name"/>
             </a>
         </li>
-        
+
     </xsl:template>
 
 
     <!-- Listings -->
-    
+
     <xsl:template match="jpa:entity" mode="list">
         <xsl:param name="package"/>
         <xsl:variable name="ref">
@@ -184,8 +182,8 @@
                 <p>
                     <xsl:call-template name="locales-translate">
                         <xsl:with-param name="source" select="'See also'"/>
-                    </xsl:call-template>                    
-                    <xsl:text>: </xsl:text>            
+                    </xsl:call-template>
+                    <xsl:text>: </xsl:text>
                     <xsl:for-each select="//jpa:entity[@superclassId=$id]">
                         <xsl:call-template name="get-entity-link">
                             <xsl:with-param name="id" select="@id"/>
@@ -200,9 +198,9 @@
                 <p>
                     <xsl:call-template name="locales-translate">
                         <xsl:with-param name="source" select="'Extends'"/>
-                    </xsl:call-template>                    
+                    </xsl:call-template>
                     <xsl:text>: </xsl:text>
-            
+
                     <xsl:call-template name="get-entity-link">
                         <xsl:with-param name="id" select="@superclassId"/>
                     </xsl:call-template>
@@ -212,11 +210,11 @@
                 <p>
                     <xsl:call-template name="locales-translate">
                         <xsl:with-param name="source" select="'Abstract'"/>
-                    </xsl:call-template>                    
+                    </xsl:call-template>
                     <xsl:text>: </xsl:text>
                     <xsl:call-template name="locales-translate">
                         <xsl:with-param name="source" select="'Yes'"/>
-                    </xsl:call-template>               
+                    </xsl:call-template>
                 </p>
             </xsl:if>
             <table>
@@ -224,31 +222,31 @@
                     <th>
                         <xsl:call-template name="locales-translate">
                             <xsl:with-param name="source" select="'Attribute'"/>
-                        </xsl:call-template>                    
+                        </xsl:call-template>
                     </th>
                     <th>
                         <xsl:call-template name="locales-translate">
                             <xsl:with-param name="source" select="'Description'"/>
-                        </xsl:call-template>                    
+                        </xsl:call-template>
                     </th>
                     <th>
                         <xsl:call-template name="locales-translate">
                             <xsl:with-param name="source" select="'Type'"/>
-                        </xsl:call-template>                    
+                        </xsl:call-template>
                     </th>
                     <th>
                         <xsl:call-template name="locales-translate">
                             <xsl:with-param name="source" select="'Flags'"/>
-                        </xsl:call-template>                    
+                        </xsl:call-template>
                     </th>
                 </tr>
                 <xsl:apply-templates select="jpa:attributes/jpa:*" mode="attributes"/>
 
             </table>
         </div>
-        
+
     </xsl:template>
-    
+
     <xsl:template match="jpa:basic" mode="attributes"> <!-- |jpa:id -->
         <tr>
             <td>
@@ -267,7 +265,7 @@
                     <xsl:otherwise>
                         <xsl:call-template name="locales-translate">
                             <xsl:with-param name="source" select="@attribute-type"/>
-                        </xsl:call-template>                    
+                        </xsl:call-template>
                         <xsl:if test="jpa:column/@precision">
                             <xsl:value-of select="concat('(',jpa:column/@precision,',',jpa:column/@scale,')')"/>
                         </xsl:if>
@@ -281,7 +279,7 @@
                         <xsl:attribute name="title">
                             <xsl:call-template name="locales-translate">
                                 <xsl:with-param name="source" select="'Primary key'"/>
-                            </xsl:call-template>                    
+                            </xsl:call-template>
                         </xsl:attribute>
                         PK
                     </span>
@@ -291,24 +289,24 @@
                         <xsl:attribute name="title">
                             <xsl:call-template name="locales-translate">
                                 <xsl:with-param name="source" select="'Unique key'"/>
-                            </xsl:call-template>                    
+                            </xsl:call-template>
                         </xsl:attribute>
                         UQ
-                    </span>                    
+                    </span>
                 </xsl:if>
                 <xsl:if test="jpa:column/@nullable='false'">
                     <span>
                         <xsl:attribute name="title">
                             <xsl:call-template name="locales-translate">
                                 <xsl:with-param name="source" select="'Not null'"/>
-                            </xsl:call-template>                    
+                            </xsl:call-template>
                         </xsl:attribute>
                         NN
                     </span>
                 </xsl:if>
             </td>
         </tr>
-        
+
     </xsl:template>
     <xsl:template match="jpa:one-to-many" mode="attributes">
         <tr>
@@ -330,7 +328,7 @@
             <td>
                 <xsl:call-template name="locales-translate">
                     <xsl:with-param name="source" select="'List'"/>
-                </xsl:call-template>                    
+                </xsl:call-template>
                 <xsl:text> </xsl:text>
                 <xsl:call-template name="get-entity-link">
                     <xsl:with-param name="id" select="@connected-entity-id"/>
@@ -342,7 +340,7 @@
                         <xsl:attribute name="title">
                             <xsl:call-template name="locales-translate">
                                 <xsl:with-param name="source" select="'Not null'"/>
-                            </xsl:call-template>                    
+                            </xsl:call-template>
                         </xsl:attribute>
                         NN
                     </span>
@@ -379,7 +377,7 @@
                         <xsl:attribute name="title">
                             <xsl:call-template name="locales-translate">
                                 <xsl:with-param name="source" select="'Not null'"/>
-                            </xsl:call-template>                    
+                            </xsl:call-template>
                         </xsl:attribute>
                         NN
                     </span>
@@ -387,16 +385,16 @@
             </td>
         </tr>
     </xsl:template>
-    
+
     <xsl:template match="jpa:many-to-one" mode="attributes">
         <xsl:if test="@optional='false' and not (jpa:join-column/@nullable='false')">
             <xsl:message terminate="no">
                 <xsl:value-of select="concat('Warning: ', ancestor-or-self::jpa:entity/@class, '.',@name,' is not optional, but join column is nullable')"/>
             </xsl:message>
 
-                
+
         </xsl:if>
-        
+
         <tr>
             <td>
                 <xsl:value-of select="@name"/>
@@ -424,7 +422,7 @@
                         <xsl:attribute name="title">
                             <xsl:call-template name="locales-translate">
                                 <xsl:with-param name="source" select="'Not null'"/>
-                            </xsl:call-template>                    
+                            </xsl:call-template>
                         </xsl:attribute>
                         NN
                     </span>
@@ -432,8 +430,8 @@
             </td>
         </tr>
     </xsl:template>
-    
-            
+
+
     <!-- utilities -->
     <xsl:template name="get-entity-link">
         <xsl:param name="id"/>
@@ -457,7 +455,7 @@
             <xsl:call-template name="get-entity-name"/>
         </xsl:for-each>
     </xsl:template>
-    
+
 
     <xsl:template name="get-entity-ref">
         <xsl:choose>
@@ -472,7 +470,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+
     <xsl:template name="get-entity-name-class">
         <xsl:call-template name="get-entity-name">
         </xsl:call-template>
@@ -518,28 +516,28 @@
                 <xsl:apply-templates select="*|text()" mode="encode" xml:space="preserve"/>
                 <xsl:text>&lt;/</xsl:text>
                 <xsl:value-of select="name()"/>
-                <xsl:text>&gt;</xsl:text>                
+                <xsl:text>&gt;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text>/&gt;</xsl:text>
             </xsl:otherwise>
-        </xsl:choose>    
-    </xsl:template>            
-    
+        </xsl:choose>
+    </xsl:template>
+
     <xsl:template match="@*" mode="encode">
         <xsl:text> </xsl:text>
         <xsl:value-of select="name()"/>
         <xsl:text>="</xsl:text>
         <xsl:value-of select="."/>
         <xsl:text>"</xsl:text>
-    </xsl:template>    
-    
+    </xsl:template>
+
     <xsl:template match="text()" mode="encode">
         <xsl:value-of select="." xml:space="preserve"/>
-    </xsl:template>    
+    </xsl:template>
 
     <!-- copy HTML for display -->
-    
+
     <xsl:template match="html:*" mode="copy">
         <!-- remove the prefix on HTML elements -->
         <xsl:element name="{local-name()}">
@@ -551,12 +549,12 @@
             <xsl:apply-templates select="node()" mode="copy"/>
         </xsl:element>
     </xsl:template>
-    
+
     <xsl:template match="@*|node()[namespace-uri()!='http://www.w3.org/1999/xhtml']" mode="copy">
         <!-- everything else goes straight through -->
         <xsl:copy>
             <xsl:apply-templates select="@*|node()" mode="copy"/>
         </xsl:copy>
-    </xsl:template>    
+    </xsl:template>
 
 </xsl:stylesheet>
