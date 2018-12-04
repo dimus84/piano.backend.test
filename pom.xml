@@ -1,332 +1,203 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru</groupId>
     <artifactId>piano.backend.test</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
-
-    <name>piano.backend.test</name>
-
+    <packaging>pom</packaging>
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>PJSC "Bystrobank"</name>
+            <email>github@bystrobank.ru</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:https://github.com/ilb/piano.backend.test.git</connection>
+        <url>https://github.com/ilb/piano.backend.test</url>
+        <tag>HEAD</tag>
+    </scm>
+    <!-- use local svn
+    <scm>
+        <connection>scm:svn:https://svn.ilb.ru/repos/piano.backend.test/trunk</connection>
+    </scm>
+    -->
+    <distributionManagement>
+        <site>
+            <id>docsserver</id>
+            <url>dav:https://docs.ilb.ru/apps/piano.backend.test/</url>
+        </site>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <name>Sonatype Nexus snapshot repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <name>Sonatype Nexus release repository</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
     <properties>
-        <additionalparam>-Xdoclint:none</additionalparam>
-        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <apache-cxf.version>3.2.4</apache-cxf.version>
-        <maven-source-plugin.version>2.4</maven-source-plugin.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <javax.ws.rs-api.version>2.1</javax.ws.rs-api.version>
-        <eclipselink.version>2.7.1</eclipselink.version>
-        <org.springframework.version>5.0.6.RELEASE</org.springframework.version>
-        <org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
+        <additionalparam>-Xdoclint:none</additionalparam>
+        <apache-cxf.version>3.2.4</apache-cxf.version>
+        <ilb-common.version>1.25</ilb-common.version>
+        <maven-source-plugin.version>2.4</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjrt</artifactId>
-                <version>1.8.13</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>${javax.ws.rs-api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
-            <version>${org.mapstruct.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.migesok</groupId>
-            <artifactId>jaxb-java-time-adapters</artifactId>
-            <version>1.1.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
-            <version>${eclipselink.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>8.0</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>2.8.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <!-- to publish site to webdav endpoint -->
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav-jackrabbit</artifactId>
+                <version>3.0.0</version>
+            </extension>
+            <!-- with netbeans outdated maven: fix java.lang.NoClassDefFoundError: org/apache/commons/lang/StringUtils -->
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-file</artifactId>
+                <version>3.0.0</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.2</version>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <compilerArguments>
-                        <endorseddirs>${endorsed.dir}</endorseddirs>
-                    </compilerArguments>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                    <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-wadl2java-plugin</artifactId>
-                <version>${apache-cxf.version}</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>generate-sources</id>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <sourceRoot>${project.build.directory}/generated-sources/xjc</sourceRoot>
-                            <wadlOptions>
-                                <wadlOption>
-                                    <wadl>${basedir}/src/main/resources/schemas/piano.backend.test/application.wadl</wadl>
-                                    <packagename>ru.piano.backend.test.api</packagename>
-                                    <bindingFiles>
-                                        <bindingFile>${basedir}/src/main/resources/schemas/piano.backend.test/core.xjb</bindingFile>
-                                        <bindingFile>${basedir}/src/main/resources/schemas/piano.backend.test/view.xjb</bindingFile>
-                                    </bindingFiles>
-                                    <extraargs>
-                                        <extraarg>-verbose</extraarg>
-                                        <extraarg>-inheritResourceParams</extraarg>
-                                        <extraarg>-javaDocs</extraarg>
-                                        <extraarg>-xjc-Xjavadoc</extraarg>
-                                        <!-- repMap examples
-                                        <extraarg>-repMap</extraarg>
-                                        <extraarg>application/*=java.io.InputStream</extraarg>
-                                        <extraarg>-repMap</extraarg>
-                                        <extraarg>image/*=java.io.InputStream</extraarg>
-                                        <extraarg>-repMap</extraarg>
-                                        <extraarg>application/xml=java.lang.String</extraarg>
-                                        -->
-                                        <extraarg>-tMap</extraarg>
-                                        <extraarg>{http://www.w3.org/2001/XMLSchema}date=java.time.LocalDate</extraarg>
-                                        <extraarg>-tMap</extraarg>
-                                        <extraarg>{http://www.w3.org/2001/XMLSchema}dateTime=java.time.LocalDateTime</extraarg>
-                                        <extraarg>-tMap</extraarg>
-                                        <extraarg>{http://www.w3.org/2001/XMLSchema}time=java.time.LocalTime</extraarg>
-                                        <!--
-                                        <extraarg>-catalog</extraarg>
-                                        <extraarg>${basedir}/src/main/resources/schemas/piano.backend.test/catalog.xml</extraarg>
-                                        -->
-                                        <!-- requires depedency com.github.jaxb-xew-plugin:jaxb-xew-plugin:1.4
-                                        <extraarg>-xjc-Xxew</extraarg>
-                                        <extraarg>-xjc-Xxew:instantiate lazy</extraarg>
-                                        -->
-
-                                        <extraarg>-xjc-Xannotate</extraarg>
-                                        <extraarg>-xjc-Xinheritance</extraarg>
-                                        <!--<extraarg>-xjc-XenumValue</extraarg>-->
-                                        <extraarg>-xjc-Xsetters</extraarg>
-                                        <extraarg>-xjc-Xsetters-mode=direct</extraarg>
-                                        <extraarg>-xjc-Xfluent-api</extraarg>
-                                        <extraarg>-xjc-enableIntrospection</extraarg>
-                                        <!--extraarg>-xjc-XBeanVal</extraarg-->
-                                        <!-- generate episode file
-                                        <extraarg>-xjc-episode</extraarg>
-                                        <extraArg>-xjc${project.build.directory}/classes/schemas/piano.backend.test/piano.backend.test.episode</extraArg>
-                                        -->
-                                    </extraargs>
-                                </wadlOption>
-                            </wadlOptions>
-                        </configuration>
+                        <id>attach-javadocs</id>
+                        <phase>prepare-package</phase>
                         <goals>
-                            <goal>wadl2java</goal>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-basics</artifactId>
-                        <version>0.9.4</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-fluent-api</artifactId>
-                        <version>3.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-basics-annotate</artifactId>
-                        <version>1.0.1</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.apache.cxf.xjcplugins</groupId>
-                        <artifactId>cxf-xjc-javadoc</artifactId>
-                        <version>3.0.5</version>
-                    </dependency>
-                </dependencies>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.6</version>
+                <configuration>
+                    <inputEncoding>UTF-8</inputEncoding>
+                    <outputEncoding>UTF-8</outputEncoding>
+                    <locales>ru</locales>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>set-system-properties</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <javax.net.ssl.trustStore>${javax.net.ssl.trustStore}</javax.net.ssl.trustStore>
+                                <javax.net.ssl.keyStore>${javax.net.ssl.keyStore}</javax.net.ssl.keyStore>
+                                <javax.net.ssl.keyStorePassword>${javax.net.ssl.keyStorePassword}</javax.net.ssl.keyStorePassword>
+                                <!-- FIX I/O exception (javax.net.ssl.SSLProtocolException) caught when processing request: handshake alert:  unrecognized_name on site-deploy -->
+                                <jsse.enableSNIExtension>false</jsse.enableSNIExtension>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
-
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.9</version>
+                <reportSets>
+                    <reportSet>
+                        <inherited>false</inherited>
+                        <reports>
+                            <report>index</report>
+                            <report>project-team</report>
+                            <report>scm</report>
+                            <report>summary</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+            </plugin>
+            <!--
+            <plugin>
+                <artifactId>maven-changelog-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <type>range</type>
+                    <range>15</range>
+                </configuration>
+            </plugin>
+            -->
+        </plugins>
+    </reporting>
     <profiles>
         <profile>
-            <id>server</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>javax.ws.rs</groupId>
-                    <artifactId>javax.ws.rs-api</artifactId>
-                    <version>${javax.ws.rs-api.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                    <version>${apache-cxf.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-rt-rs-extension-search</artifactId>
-                    <version>${apache-cxf.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-rt-rs-client</artifactId>
-                    <version>${apache-cxf.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-rt-features-logging</artifactId>
-                    <version>${apache-cxf.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-rt-rs-security-cors</artifactId>
-                    <version>${apache-cxf.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-rt-rs-extension-providers</artifactId>
-                    <version>${apache-cxf.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-rt-rs-service-description</artifactId>
-                    <version>${apache-cxf.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>xml-resolver</groupId>
-                    <artifactId>xml-resolver</artifactId>
-                    <version>1.2</version>
-                </dependency>
-                <dependency>
-                    <groupId>ru.ilb.common</groupId>
-                    <artifactId>common-jaxrs</artifactId>
-                    <version>1.25</version>
-                </dependency>
-                <dependency>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                    <version>4.10</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-web</artifactId>
-                    <version>${org.springframework.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-tx</artifactId>
-                    <version>${org.springframework.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-orm</artifactId>
-                    <version>${org.springframework.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-aspects</artifactId>
-                    <version>${org.springframework.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-aop</artifactId>
-                    <version>${org.springframework.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context-support</artifactId>
-                    <version>${org.springframework.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.springframework.data</groupId>
-                    <artifactId>spring-data-jpa</artifactId>
-                    <version>1.10.5.RELEASE</version>
-                </dependency>
-                <dependency>
-                    <groupId>com.github.marschall</groupId>
-                    <artifactId>threeten-jpa</artifactId>
-                    <version>1.5.1</version>
-                </dependency>
-                <!-- caffeine @Cacheable support -->
-                <dependency>
-                    <groupId>com.github.ben-manes.caffeine</groupId>
-                    <artifactId>caffeine</artifactId>
-                    <version>2.6.2</version>
-                </dependency>
-            </dependencies>
+            <id>release</id>
             <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.10</version>
-                        <executions>
-                            <execution>
-                                <id>unpack</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <!-- packaging org.eclipse.persistence.jaxb.rs.MOXyJsonProvider required becouse of javax.ws.rs-api conflicts -->
-                                        <artifactItem>
-                                            <groupId>org.eclipse.persistence</groupId>
-                                            <artifactId>org.eclipse.persistence.moxy</artifactId>
-                                            <version>${eclipselink.version}</version>
-                                            <type>jar</type>
-                                            <overWrite>false</overWrite>
-                                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                            <includes>org/eclipse/persistence/jaxb/rs/*.class</includes>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-war-plugin</artifactId>
-                        <version>2.6</version>
-                        <configuration></configuration>
-                    </plugin>
-                </plugins>
             </build>
         </profile>
     </profiles>
-
+    <modules>
+        <module>piano.backend.test-web</module>
+        <module>piano.backend.test-api</module>
+    </modules>
+    <name>piano.backend.test</name>
 </project>

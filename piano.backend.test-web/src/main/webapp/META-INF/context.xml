@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/piano.backend.test-web">
+  <!-- TomcatInstrumentableClassLoader is not intended to work on Tomcat 8.0+, but required in older versions.
+    In case of exception javax.persistence.TransactionRequiredException: No EntityManager with actual transaction available for current thread
+    uncomment this line and place spring-instrument-tomcat-4.3.2.RELEASE.jar in ${catalina.base}/lib
+    -->
+  <!--
+    <Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader"/>
+    -->
+  <!--<Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" logAbandoned="true" maxWaitMillis="20000" name="jdbc/piano.backend.test" password="piano.backend.test" removeAbandonedOnBorrow="true" removeAbandonedTimeout="100" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/piano.backend.test?autoReconnect=true&amp;elideSetAutoCommits=true&amp;useLocalSessionState=true&amp;maintainTimeStats=false&amp;serverTimezone=Europe/Moscow&amp;rewriteBatchedStatements=true" username="piano.backend.test" validationQuery="SELECT 1"/>-->
+  <Environment name="SERVER_ADMIN" override="false" type="java.lang.String" value="root"/>
+  <Environment name="ru.piano.backend.test.stackexchange.api.url" overrride="false" type="java.lang.String" value="http://api.stackexchange.com/2.2"/>
+</Context>

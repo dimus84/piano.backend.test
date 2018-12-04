@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<locales>
+    
+    <locale name="Entities" value="Сущности"/>
+    <locale name="Attribute" value="Аттрибут"/>
+    <locale name="Type" value="Тип"/>
+    <locale name="Flags" value="Флаги"/>
+    <locale name="Description" value="Описание"/>
+    <locale name="Primary key" value="Первичный ключ"/>
+    <locale name="Unique key" value="Уникальный ключ"/>
+    <locale name="Not null" value="Не пустое"/>
+    <locale name="Extends" value="Наследует"/>
+    
+    <locale name="Abstract" value="Абстрактный"/>
+    <locale name="Yes" value="Да"/>
+    <locale name="No" value="Нет"/>
+    
+    <locale name="See also" value="См. также"/>
+    
+    <locale name="List" value="Список"/>
+    
+    <locale name="String" value="Строка"/>
+    <locale name="Integer" value="Целое"/>
+    <locale name="Long" value="Целое*"/>
+    <locale name="java.math.BigDecimal" value="Десятичное"/>
+    
+    <locale name="java.time.LocalDate" value="Дата"/>
+    <locale name="java.time.LocalDateTime" value="Дата и время"/>
+    <locale name="java.time.LocalTime" value="Время"/>
+    
+    <locale name="java.util.UUID" value="UUID"/>
+    
+    
+    
+    
+</locales>

@@ -1,2 +1,5 @@
 /nb-configuration.xml
 /target/
+/nbactions.xml
+/piano.backend.test-web/nb-configuration.xml
+/piano.backend.test-web/nbactions.xml

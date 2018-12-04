@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Context path="/piano.backend.test">
-  <Environment name="ru.piano.backend.test.stackexchange.api.url" overrride="false" type="java.lang.String" value="http://api.stackexchange.com/2.2"/>
-</Context>

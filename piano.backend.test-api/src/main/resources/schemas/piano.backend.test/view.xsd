@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="urn:ru:piano:backend:test:view"
+            targetNamespace="urn:ru:piano:backend:test:view"
+            elementFormDefault="qualified"
+>
+
+    <xsd:element name="question" type="question"/>
+
+    <xsd:complexType name="question">
+        <xsd:sequence>
+            <xsd:element name="question_id" type="xsd:long" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Internal question identificator</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="creation_date" type="xsd:dateTime" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Date of the question</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="last_edit_date" type="xsd:dateTime" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Date of the last edit of the question</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="last_activity_date" type="xsd:dateTime" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Date of last activity</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="link" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>URL of the question</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="title" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Title of the question</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="is_answered" type="xsd:boolean" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Flag if the question is answered</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="view_count" type="xsd:int" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Count of views of the question</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="answer_count" type="xsd:int" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Count of answers to the question</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="score" type="xsd:int" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Question's score value</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="tag" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>Tags of the question</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element ref="owner" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Info about owner of the question</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="owner" type="owner"/>
+
+    <xsd:complexType name="owner">
+        <xsd:sequence>
+            <xsd:element name="user_id" type="xsd:long" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Internal user identificator</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="user_type" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Type of the user</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="link" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>URL of the user's profile</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="profile_image" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Image of the user's profile</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="display_name" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>User's display name</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="reputation" type="xsd:int" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>User's reputation value</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="questions">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="question" maxOccurs="unbounded" minOccurs="0"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

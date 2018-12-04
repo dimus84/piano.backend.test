@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://www.eclipse.org/eclipselink/xsds/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 version="2.5">
+    <persistence-unit-metadata>
+        <persistence-unit-defaults>
+            <entity-listeners>
+                <!--<entity-listener class="ru.piano.backend.test.listeners.AuditableListener" />-->
+            </entity-listeners>
+        </persistence-unit-defaults>
+    </persistence-unit-metadata>      
+    <!--<converter class="ru.ilb.common.jpa.converters.UUIDConverterBytes" auto-apply="true"/>-->
+</entity-mappings>

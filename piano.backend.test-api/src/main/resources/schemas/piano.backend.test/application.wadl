@@ -1,0 +1,59 @@
+<application xmlns="http://wadl.dev.java.net/2009/02"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:command="urn:ru:piano:backend:test:command"
+             xmlns:view="urn:ru:piano:backend:test:view"
+             xmlns:core="urn:ru:piano:backend:test:core"
+>
+
+    <grammars>
+        <include href="command.xsd" />
+        <include href="view.xsd" />
+    </grammars>
+
+    <resources>
+        <resource path="/questions">
+            <method name="GET" id="list">
+                <doc>List of questions</doc>
+                <request>
+                    <param name="page" style="query" type="xsd:int">
+                        <doc>number of page if pagesize defined</doc>
+                    </param>
+                    <param name="pagesize" style="query" type="xsd:int">
+                        <doc>number of questions per page</doc>
+                    </param>
+                    <param name="order" style="query" type="xsd:string">
+                        <doc>order of questions</doc>
+                    </param>
+                    <param name="sort" style="query" type="xsd:string">
+                        <doc>sort field</doc>
+                    </param>
+                    <param name="intitle" style="query" type="xsd:string">
+                        <doc>string searched in question title</doc>
+                    </param>
+                </request>
+                <response>
+                    <representation mediaType="application/xml" element="view:questions">
+                        <doc>list of questions</doc>
+                    </representation>
+                    <representation mediaType="application/json">
+                        <doc>list of questions</doc>
+                    </representation>
+                    <representation mediaType="application/xhtml+xml">
+                        <doc>list of questions</doc>
+                    </representation>
+                </response>
+            </method>
+        </resource>
+
+        <resource path="/heartbeat">
+            <method name="GET" id="heartbeat">
+                <response>
+                    <representation mediaType="*/*">
+                        <param name="result" style="plain" type="xsd:string"></param>
+                    </representation>
+                </response>
+            </method>
+        </resource>
+    </resources>
+
+</application>

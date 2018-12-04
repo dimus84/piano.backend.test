@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="piano.backend.test" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <non-jta-data-source>java:/comp/env/jdbc/piano.backend.test</non-jta-data-source>
+    <class>com.github.marschall.threeten.jpa.LocalTimeConverter</class>
+    <class>com.github.marschall.threeten.jpa.LocalDateConverter</class>
+    <class>com.github.marschall.threeten.jpa.LocalDateTimeConverter</class>
+    <class>ru.ilb.common.jpa.converters.UUIDConverterBytes</class>
+    <class>ru.piano.backend.test.model.Docfile</class>
+    <class>ru.piano.backend.test.model.Document</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <!-- ГЕНЕРАЦИЯ МЕТАДАННЫХ НА ОСНОВЕ МОДЕЛИ -->
+      <!-- ВСЕ ДЕЙСТВИЯ ПРОИЗВОДЯТЬСЯ МОМЕНТ ДЕПЛОЯ, В ТОМ ЧИСЛЕ DEPLOY ON SAVE -->
+      <!-- ОПИСАНИЕ ПОЛЕЙ: http://wiki.eclipse.org/EclipseLink/Release/2.5/JPA21#DDL_generation -->
+      <!-- генерация таблиц в БД: none, create, drop-and-create, drop, create-or-extend-tables -->
+      <!-- !!! НЕ ИСПОЛЬЗОВАТь ЗНАЧЕНИЕ drop-and-create в PRODUCTION !!! ТОЛЬКО ПРИ РАЗРАБОТКЕ !!! -->
+      <!--<property name="javax.persistence.schema-generation.database.action" value="create-or-extend-tables"/>-->
+      <!-- генерация таблиц БД из скрипта и/или классов: metadata, script, metadata-then-script, script-then-metadata -->
+      <!--            
+            <property name="javax.persistence.schema-generation.create-source" value="metadata-then-script"/>
+            <property name="javax.persistence.schema-generation.create-script-source" value="META-INF/sql/create.sql" />
+            -->
+      <!--
+            <property name="javax.persistence.schema-generation.drop-source" value="metadata-then-script" />
+            <property name="javax.persistence.schema-generation.drop-script-source" value="META-INF/sql/drop.sql" />
+            -->
+      <!-- инициализация данных -->
+      <!--
+            <property name="javax.persistence.sql-load-script-source" value="META-INF/sql/data.sql"/>
+            -->
+      <!-- генерация DDL в файлах, данные файлы можно взять за основу структуры БД, либо выгрузить их дампом из тестовой базы
+            <property name="javax.persistence.schema-generation.scripts.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.scripts.create-target" value="/tmp/create.sql"/>
+            <property name="javax.persistence.schema-generation.scripts.drop-target" value="/tmp/drop.sql"/>
+            -->
+      <!-- отладка https://wiki.eclipse.org/EclipseLink/Examples/JPA/Logging
+            по-уомолчанию INFO. можно  указать FINE для отладки SQL запросов
+            -->
+      <property name="eclipselink.logging.level" value="FINE"/>
+      <property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
+      <property name="eclipselink.jdbc.batch-writing.size" value="1000"/>
+      <!-- enable AutoHistory on @AutoHistory annotated entities -->
+      <property name="eclipselink.session.customizer" value="ru.ilb.common.jpa.history.HistorySessionCustomizer"/>
+      <!-- with static-weaving profile -->
+      <property name="eclipselink.weaving" value="static"/>
+      
+    </properties>
+  </persistence-unit>
+</persistence>
