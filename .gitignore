@@ -3,3 +3,5 @@
 /nbactions.xml
 /piano.backend.test-web/nb-configuration.xml
 /piano.backend.test-web/nbactions.xml
+/piano.backend.test-api/target/
+/piano.backend.test-web/target/
